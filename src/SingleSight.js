@@ -20,7 +20,7 @@ export default function SingleSight() {
   useEffect(() => {
     if (index) {
       axios.get(`${BACKEND_URL}/sightings/${index}`).then((info) => {
-        // console.log(info);
+        console.log(info);
         setSighting(info);
         setDate(info.data.date);
         setLocation(info.data.location);
@@ -36,11 +36,17 @@ export default function SingleSight() {
 
   useEffect(() => {
     if (sighting) {
+      const displayField = [];
+      const categoryDisplay = sighting.data.categories.map((info) => {
+        displayField.push(info.name + " / ");
+      });
+      console.log(categoryDisplay);
       setDisplay(
         <div>
           <div>Location: {sighting.data.location}</div>
           <div>Time: {sighting.data.date}</div>
           <div>Notes: {sighting.data.notes}</div>
+          <div>Categories: {displayField}</div>
         </div>
       );
     }
@@ -124,7 +130,6 @@ export default function SingleSight() {
       .then((info) => {
         console.log(info);
         setComment(info.data);
-        navigate("/sightings");
       })
       .catch((error) => {
         console.log(error);
